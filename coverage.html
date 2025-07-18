@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>handlers: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">onfly-api/cmd/fiber_http/handlers/helloHandler.go (0.0%)</option>
+				
+				<option value="file1">onfly-api/cmd/fiber_http/routes/hello.go (0.0%)</option>
+				
+				<option value="file2">onfly-api/cmd/fiber_http/routes/routes.go (0.0%)</option>
+				
+				<option value="file3">onfly-api/cmd/fiber_http/server.go (0.0%)</option>
+				
+				<option value="file4">onfly-api/internal/domain/pedido/destino.go (100.0%)</option>
+				
+				<option value="file5">onfly-api/internal/domain/pedido/pedido.go (100.0%)</option>
+				
+				<option value="file6">onfly-api/internal/domain/pedido/periodo_viagem.go (100.0%)</option>
+				
+				<option value="file7">onfly-api/internal/domain/pedido/status.go (0.0%)</option>
+				
+				<option value="file8">onfly-api/main.go (0.0%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package handlers
+
+import "github.com/gofiber/fiber/v2"
+
+func Hello(c *fiber.Ctx) error <span class="cov0" title="0">{
+        return c.SendString("Hello, World!")
+}</span>
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package routes
+
+import (
+        "onfly-api/cmd/fiber_http/handlers"
+
+        "github.com/gofiber/fiber/v2"
+)
+
+func HelloRegister(app fiber.Router) <span class="cov0" title="0">{
+        auth := app.Group("/Hello")
+        auth.Get("/", handlers.Hello)
+}</span>
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package routes
+
+import "github.com/gofiber/fiber/v2"
+
+func RegisterRoutes(app *fiber.App) <span class="cov0" title="0">{
+        HelloRegister(app)
+}</span>
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package fiber_http
+
+import (
+        "onfly-api/cmd/fiber_http/routes"
+
+        "github.com/gofiber/fiber/v2"
+)
+
+func StartServerHttp() <span class="cov0" title="0">{
+        app := fiber.New()
+
+        routes.RegisterRoutes(app)
+        app.Listen("localhost:3000")
+}</span>
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package pedido
+
+type Destino struct {
+        Cidade string
+        Estado string
+        Pais   string
+}
+
+func (d Destino) Valido() bool <span class="cov8" title="1">{
+        return d.Cidade != "" &amp;&amp; d.Pais != "" &amp;&amp; d.Estado != ""
+}</span>
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package pedido
+
+import (
+        "errors"
+        "time"
+
+        "github.com/google/uuid"
+)
+
+type PedidoDeViagem struct {
+        ID            uuid.UUID
+        SolicitanteID uuid.UUID
+        EmpresaID     uuid.UUID
+        Destino       Destino
+        Periodo       PeriodoViagem
+        Status        Status
+        CriadoEm      time.Time
+}
+
+func NovoPedidoDeViagem(solicitanteID uuid.UUID, empresaID uuid.UUID, destino Destino, periodo PeriodoViagem) (*PedidoDeViagem, error) <span class="cov8" title="1">{
+        if !destino.Valido() </span><span class="cov8" title="1">{
+                return nil, errors.New("destino de viagem inválido")
+        }</span>
+        <span class="cov8" title="1">if !periodo.Valido() </span><span class="cov8" title="1">{
+                return nil, errors.New("período de viagem inválido")
+        }</span>
+
+        <span class="cov8" title="1">return &amp;PedidoDeViagem{
+                ID:            uuid.New(),
+                SolicitanteID: solicitanteID,
+                EmpresaID:     empresaID,
+                Destino:       destino,
+                Periodo:       periodo,
+                Status:        StatusSolicitado,
+                CriadoEm:      time.Now(),
+        }, nil</span>
+}
+
+func (p *PedidoDeViagem) AprovarValido(usuarioID uuid.UUID) error <span class="cov8" title="1">{
+        if usuarioID == p.SolicitanteID </span><span class="cov8" title="1">{
+                return errors.New("usuario não é um aprovador valido de solicitação")
+        }</span>
+
+        <span class="cov8" title="1">return nil</span>
+}
+func (p *PedidoDeViagem) AprovarPor(usuarioID uuid.UUID) error <span class="cov8" title="1">{
+
+        if p.Status != StatusSolicitado </span><span class="cov8" title="1">{
+                return errors.New("somente pedidos solicitados podem ser aprovados")
+        }</span>
+        <span class="cov8" title="1">p.Status = StatusAprovado
+        return nil</span>
+}
+
+func (p *PedidoDeViagem) CancelarPor(usuarioID uuid.UUID) error <span class="cov8" title="1">{
+        if p.Status == StatusCancelado </span><span class="cov8" title="1">{
+                return errors.New("pedido já está cancelado")
+        }</span>
+        <span class="cov8" title="1">p.Status = StatusCancelado
+        return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file6" style="display: none">package pedido
+
+import "time"
+
+type PeriodoViagem struct {
+        Ida   time.Time
+        Volta time.Time
+}
+
+func (p PeriodoViagem) Valido() bool <span class="cov8" title="1">{
+        return p.Ida.Before(p.Volta)
+}</span>
+</pre>
+		
+		<pre class="file" id="file7" style="display: none">package pedido
+
+type Status string
+
+const (
+        StatusSolicitado Status = "solicitado"
+        StatusAprovado   Status = "aprovado"
+        StatusCancelado  Status = "cancelado"
+)
+
+func (s Status) IsValid() bool <span class="cov0" title="0">{
+        switch s </span>{
+        case StatusSolicitado, StatusAprovado, StatusCancelado:<span class="cov0" title="0">
+                return true</span>
+        }
+        <span class="cov0" title="0">return false</span>
+}
+</pre>
+		
+		<pre class="file" id="file8" style="display: none">package main
+
+import "onfly-api/cmd/fiber_http"
+
+func main() <span class="cov0" title="0">{
+
+        fiber_http.StartServerHttp()
+
+}</span>
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>

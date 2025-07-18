@@ -1,0 +1,25 @@
+mode: set
+onfly-api/main.go:5.13,9.2 1 0
+onfly-api/cmd/fiber_http/server.go:9.24,14.2 3 0
+onfly-api/cmd/fiber_http/routes/hello.go:9.38,12.2 2 0
+onfly-api/cmd/fiber_http/routes/routes.go:5.37,7.2 1 0
+onfly-api/cmd/fiber_http/handlers/helloHandler.go:5.32,7.2 1 0
+onfly-api/internal/domain/pedido/destino.go:9.32,11.2 1 1
+onfly-api/internal/domain/pedido/pedido.go:20.136,21.23 1 1
+onfly-api/internal/domain/pedido/pedido.go:21.23,23.3 1 1
+onfly-api/internal/domain/pedido/pedido.go:24.2,24.23 1 1
+onfly-api/internal/domain/pedido/pedido.go:24.23,26.3 1 1
+onfly-api/internal/domain/pedido/pedido.go:28.2,36.8 1 1
+onfly-api/internal/domain/pedido/pedido.go:39.67,40.34 1 1
+onfly-api/internal/domain/pedido/pedido.go:40.34,42.3 1 1
+onfly-api/internal/domain/pedido/pedido.go:44.2,44.12 1 1
+onfly-api/internal/domain/pedido/pedido.go:46.64,48.34 1 1
+onfly-api/internal/domain/pedido/pedido.go:48.34,50.3 1 1
+onfly-api/internal/domain/pedido/pedido.go:51.2,52.12 2 1
+onfly-api/internal/domain/pedido/pedido.go:55.65,56.33 1 1
+onfly-api/internal/domain/pedido/pedido.go:56.33,58.3 1 1
+onfly-api/internal/domain/pedido/pedido.go:59.2,60.12 2 1
+onfly-api/internal/domain/pedido/periodo_viagem.go:10.38,12.2 1 1
+onfly-api/internal/domain/pedido/status.go:11.32,12.11 1 0
+onfly-api/internal/domain/pedido/status.go:13.57,14.14 1 0
+onfly-api/internal/domain/pedido/status.go:16.2,16.14 1 0

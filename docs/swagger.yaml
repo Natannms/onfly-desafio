@@ -1,0 +1,165 @@
+basePath: /
+definitions:
+  handlers.LoginInput:
+    properties:
+      email:
+        example: joao@email.com
+        type: string
+      senha:
+        example: "123456"
+        type: string
+    type: object
+  handlers.RegisterInput:
+    properties:
+      email:
+        example: joao@email.com
+        type: string
+      nome:
+        example: João
+        type: string
+      senha:
+        example: "123456"
+        type: string
+      tipo:
+        description: '"administrador" ou "empresa"'
+        example: empresa
+        type: string
+    type: object
+  handlers.ResetPasswordInput:
+    properties:
+      email:
+        example: joao@email.com
+        type: string
+      nova_senha:
+        example: novasenha123
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  description: Esta é a documentação da API da Onfly
+  title: Onfly API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Autentica o usuário e retorna um token JWT
+      parameters:
+      - description: Credenciais de login
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.LoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Realiza login
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Registra um novo usuário com nome, e-mail, senha e tipo
+      parameters:
+      - description: Dados para registrar usuário
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.RegisterInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Cria um novo usuário
+      tags:
+      - Auth
+  /auth/reset-password:
+    post:
+      consumes:
+      - application/json
+      description: Envia uma solicitação para redefinir a senha do usuário
+      parameters:
+      - description: Dados para reset de senha
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.ResetPasswordInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Solicita reset de senha
+      tags:
+      - Auth
+schemes:
+- http
+swagger: "2.0"

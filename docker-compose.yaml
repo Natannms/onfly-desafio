@@ -1,0 +1,87 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: onfly-api
+    # volumes:
+    #   - ./:/app
+    ports:
+      - "3000:3000" # ou a porta que seu Fiber usa
+    environment:
+      - DATABASE_URL=postgres://root:root@postgres:5432/onfly?sslmode=disable
+      - RABBITMQ_URL=amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672/
+      - QUEUE_REDIS_HOST=redis
+      - QUEUE_REDIS_PORT=6379
+      - QUEUE_REDIS_PASSWORD=guest
+      - QUEUE_REDIS_DB=0
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+    networks:
+      - onfly-network
+    restart: unless-stopped
+  redis:
+    image: redis:latest
+    command: redis-server --requirepass guest
+    environment:
+      - QUEUE_MODE=${QUEUE_MODE}
+      - QUEUE_REDIS_HOST=${QUEUE_REDIS_HOST}
+      - QUEUE_REDIS_PORT=${QUEUE_REDIS_PORT}
+      - QUEUE_REDIS_DB=${QUEUE_REDIS_DB}
+      - QUEUE_REDIS_PASSWORD=${QUEUE_REDIS_PASSWORD}
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - onfly-network
+    restart: unless-stopped
+
+  redisinsight:
+    image: redis/redisinsight:latest
+    container_name: redisinsight
+    ports:
+      - "5540:5540"
+    networks:
+      - onfly-network
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-container
+    ports:
+      - "5672:5672"     # porta AMQP
+      - "15672:15672"   # UI do RabbitMQ
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+    networks:
+      - onfly-network
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=onfly
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - onfly-network
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+  postgres_data:
+
+networks:
+  onfly-network:
+    driver: bridge
