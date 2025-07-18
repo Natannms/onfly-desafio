@@ -36,7 +36,6 @@ func InitDB() {
 		log.Fatalf("❌ Falha ao conectar no banco de dados: %v", err)
 	}
 
-	// Executa as migrações automáticas
 	err = database.AutoMigrate(
 		&UsuarioModel{},
 		&Pedido{},

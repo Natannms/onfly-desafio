@@ -42,7 +42,7 @@ func TestMain(m *testing.M) {
 
 	testDB = db
 
-	code := m.Run() // Executa os testes
+	code := m.Run()
 	os.Exit(code)
 }
 
@@ -155,10 +155,8 @@ func TestCancelarPedidoComSucesso(t *testing.T) {
 		Ida: time.Now().Add(24 * time.Hour), Volta: time.Now().Add(48 * time.Hour),
 	})
 
-	// Aprova antes de cancelar (opcional)
 	_ = service.AprovarPedido(p.ID, aprovadorID)
 
-	// Agora cancela
 	err := service.CancelarPedido(p.ID, aprovadorID)
 	assert.NoError(t, err)
 

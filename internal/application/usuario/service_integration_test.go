@@ -99,6 +99,5 @@ func (s *UsuarioServiceSuite) TestCriarUsuario() {
 	s.Equal(email, u.Email)
 	s.Equal(usuario.TipoAdministrador, u.Tipo)
 
-	// A senha deve estar criptografada
 	s.NotEqual("123456", u.Senha)
 }

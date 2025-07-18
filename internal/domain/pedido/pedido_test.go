@@ -111,7 +111,7 @@ func TestSomentePedidosSolicitadosPodemSerAprovados(t *testing.T) {
 
 	p, _ := NovoPedidoDeViagem(solicitanteID, empresaID, dest, periodo)
 
-	p.Status = StatusAprovado // alterando status da solicitação
+	p.Status = StatusAprovado
 	errAprv := p.AprovarPor(aprovador)
 
 	assert.Error(t, errAprv)

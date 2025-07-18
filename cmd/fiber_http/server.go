@@ -9,7 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 
 	"onfly-api/cmd/fiber_http/routes"
-	_ "onfly-api/docs" // caminho onde o swag gerou os arquivos
+	_ "onfly-api/docs"
 	"onfly-api/internal/infrasctructure/persistence"
 
 	swagger "github.com/gofiber/swagger"
@@ -39,7 +39,7 @@ func StartServerHttp() {
 
 	app.Use(logger.New())
 
-	app.Get("/swagger/*", swagger.HandlerDefault) // Ex: http://localhost:3000/swagger/index.html
+	app.Get("/swagger/*", swagger.HandlerDefault)
 
 	routes.RegisterRoutes(app)
 
