@@ -10,7 +10,7 @@ Certifique-se de ter o **Docker** e o **Docker Compose** instalados em sua máqu
 
 1. Clone este repositório:
    ```bash
-   git clone https://github.com/Natannms/onfly-teste
+   git clone https://github.com/Natannms/onfly-desafio
    cd onfly-api
 
 2. Suba os containers:
